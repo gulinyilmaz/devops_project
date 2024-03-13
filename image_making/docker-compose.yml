@@ -1,0 +1,8 @@
+services:
+  backend_web:
+    container_name: task_container_new
+    image: task_container_new
+    restart: on-failure
+    build: ./ 
+    ports:
+      - "4444:4444"

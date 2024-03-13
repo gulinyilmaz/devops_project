@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+  sonarqube:
+    container_name: sonarqube
+    image: sonarqube:8-community
+    restart: always
+    environment:
+      SONAR_JDBC_URL: jdbc:mariadb://db:3306/sonarqubedb
+      SONAR_JDBC_USERNAME: sonar
+      SONAR_JDBC_PASSWORD: sonar
+    volumes:
+      - /opt/sonarqube/data
+      - /opt/sonarqube/extensions
+      - /opt/sonarqube/logs
+    ports:
+      - "9000:9000"
+    depends_on:
+      - db
+
+  db:
+    container_name: mariadb
+    image: mariadb:latest  # Use the latest MariaDB image that supports multiple architectures
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: sonarqubedb
+      MYSQL_USER: sonar
+      MYSQL_PASSWORD: sonar
+    volumes:
+      - /opt/mariadb/data
